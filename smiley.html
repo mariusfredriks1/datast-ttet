@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smiley Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
+    <script>
+      generateRandomEnergyConsumption = () => {
+        return Math.floor(Math.random() * 151);
+      };
+
+      function generateSmiley(energyConsumption) {
+        const smileys = {
+          sur: ['sur.jpg'],
+          ok: ['ok.jpg'],
+          glad: ['glad.jpg'],
+        };
+
+        let category;
+
+        if (energyConsumption < 50) {
+          category = 'sur';
+        } else if (energyConsumption < 100) {
+          category = 'ok';
+        } else {
+          category = 'glad';
+        }
+
+        const randomIndex = Math.floor(
+          Math.random() * smileys[category].length
+        );
+        return smileys[category][randomIndex];
+      }
+
+      generateDailySmiley = () => {
+        const today = new Date();
+        const seed =
+          today.getFullYear() * 10000 +
+          (today.getMonth() + 1) * 100 +
+          today.getDate();
+        Math.seedrandom(seed);
+
+        const energyConsumption = generateRandomEnergyConsumption();
+        const smiley = generateSmiley(energyConsumption);
+
+        return smiley;
+      };
+
+      document.addEventListener('DOMContentLoaded', function () {
+        const dailySmiley = generateDailySmiley();
+        document.getElementById('smiley').src = dailySmiley;
+      });
+    </script>
+  </head>
+  <body>
+    <img id="smiley" alt="Daily Smiley" />
+  </body>
+</html>
